@@ -1,9 +1,5 @@
 # Implementation of the construction of a Damerau-Levenshtein Edit Distance Matrix
 class DLMatrix:
-    _refWord = ""
-    _charStack = []
-    _DLArray = []
-
     def addFirstRow(self):
         firstRow = []
         firstRow.append(0)
@@ -13,6 +9,8 @@ class DLMatrix:
 
     def __init__(self, refWord):
         self._refWord = refWord
+        self._DLArray = []
+        self._charStack = []
         # Initialize DLArray's first row
         self.addFirstRow()
 

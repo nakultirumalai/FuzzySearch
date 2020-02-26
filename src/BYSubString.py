@@ -1,8 +1,4 @@
 class BoyerMooreMatch:
-    _pattern = ""
-    _patternLen = 0
-    _rightMostPos = {}
-
     def preComputeDict(self):
         # Just clearer to have two loops
         # One loop to collect all the characters in
@@ -19,8 +15,10 @@ class BoyerMooreMatch:
             self._rightMostPos[c] = max(val, i)
 
     def __init__(self, pattern):
+        _pattern = ""
         self._pattern = pattern
         self._patternLen = len(pattern)
+        self._rightMostPos = {}
         self.preComputeDict()
 
     def getRightMostPosOfChar(self, char):
@@ -34,15 +32,17 @@ class BoyerMooreMatch:
         textLen = len(text)
         patternLen = self._patternLen
         i = 0
-        while (i < (textLen - patternLen - 1)):
+        while (i <= (textLen - patternLen)):
             mismatchFound = False
             end = i + patternLen - 1
             for j in range(patternLen - 1, 0, -1):
-                if (text[end] == self._pattern[j]):
+                chari = text[end]
+                charj = self._pattern[j]
+                if (chari == charj):
                     end -= 1
                 else:
                     mismatchFound = True
-                    skip = self.getRightMostPosOfChar(text[end])
+                    skip = self.getRightMostPosOfChar(chari)
                     if skip == -1:
                         i = i + patternLen
                     else:
@@ -57,11 +57,16 @@ class BoyerMooreMatch:
 
 
 def testBoyerMoore():
-    pattern = "ABAC"
+    pattern = "eryx"
     byMatch = BoyerMooreMatch(pattern)
-    text = "ABAACDEABC"
+    text = "archaeopteryx"
     print("Text: " + text + "  pattern: " + pattern + "  result: " + str(byMatch.matches(text)))
-    text = "BADAHJKWABAMNABACCCCZ"
+    text = "myeryx"
+    print("Text: " + text + "  pattern: " + pattern + "  result: " + str(byMatch.matches(text)))
+
+    text = "services"
+    print("Text: " + text + "  pattern: " + pattern + "  result: " + str(byMatch.matches(text)))
+    text = "servieryxces"
     print("Text: " + text + "  pattern: " + pattern + "  result: " + str(byMatch.matches(text)))
 
 # testBoyerMoore()
